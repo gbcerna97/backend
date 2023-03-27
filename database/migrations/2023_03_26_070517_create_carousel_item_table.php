@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id('carousel_item_id');
             $table->string('carousel_name')->nullable();
             $table->string('image_path');
-            $table->srting('description')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
 
-        Schema::table('capusel_items', function (Blueprint $table){
+        Schema::table('carousel_item', function (Blueprint $table){
             $table->unsignedBigInteger('user_id');
+
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

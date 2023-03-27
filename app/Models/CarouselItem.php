@@ -14,7 +14,7 @@ class CarouselItem extends Model
      *
      * @var string
      */
-    protected $table = 'carousel_items';
+    protected $table = 'carousel_item';
     
      /**
      * The table associated with the model.
