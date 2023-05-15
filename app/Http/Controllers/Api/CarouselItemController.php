@@ -47,7 +47,8 @@ class CarouselItemController extends Controller
     {
         $validated = $request->validated();
         
-        $carouselItem = CarouselItem::findtorFail($id)->update($validated);
+        $carouselItem = CarouselItem::findorFail($id);
+        $carouselItem->update($validated);
 
         return $carouselItem;
     }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -17,19 +19,17 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $validated = $request->validated();
+        
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user = User::create($validated);
+
+        return $user;
     }
 
     /**
@@ -37,23 +37,54 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $user = User::where('id', $id)->firstorFail();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return $user;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+        
+        $user = User::findorFail($id);
+
+        $user->name = $validated['name'];
+        $user -> save();
+
+        return $user;
+    }
+
+    /**
+     * Update for the specified resource in storage.
+     */
+    public function email(UserRequest $request, string $id)
+    {
+        $validated = $request->validated();
+        
+        $user = User::findorFail($id);
+
+        $user->email = $validated['email'];
+        $user -> save();
+        
+        return $user;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function password(UserRequest $request, string $id)
+    {
+        $validated = $request->validated();
+        
+        $user = User::findorFail($id);
+
+        $user->password = Hash::make($validated['password']);;
+        $user -> save();
+        
+        return $user;
     }
 
     /**
