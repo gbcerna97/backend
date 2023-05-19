@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -94,6 +95,26 @@ class UserController extends Controller
     {
         $user = User::findorFail($id);
         $user->delete();
+        return $user;
+    }
+
+    /**
+     *Update image of the specified resource.
+     */
+    public function image(UserRequest $request, string $id)
+    {
+        $user = User::findorFail($id);
+
+        $validated = $request->validated();
+
+        $user->image = $request->file('image')->storePublicly('images', 'public');
+
+        if(!is_null($user->image)) {
+            Storage::delete($user->image);
+        } 
+
+        $user->save();
+
         return $user;
     }
 }

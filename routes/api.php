@@ -35,12 +35,13 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(UserController::class)->group(function () {
-        Route::get('/user', [UserController::class, 'index']);
-        Route::get('/user/{id}', [UserController::class, 'show']);
-        Route::post('/user/name/{id}', [UserController::class, 'update'])->name('user.update');
-        Route::post('/user/email/{id}', [UserController::class, 'email'])->name('user.email');
-        Route::post('/user/password/{id}', [UserController::class, 'password'])->name('user.password');
-        Route::delete('/user/{id}', [UserController::class, 'destroy']);
+        Route::get('/user', 'index');
+        Route::get('/user/{id}', 'show');
+        Route::post('/user/name/{id}', 'update')->name('user.update');
+        Route::post('/user/email/{id}', 'email')->name('user.email');
+        Route::post('/user/password/{id}', 'password')->name('user.password');
+        Route::delete('/user/{id}', 'destroy');
+        Route::put('/user/image/{id}', 'image')->name('user.image');
     });
     
     

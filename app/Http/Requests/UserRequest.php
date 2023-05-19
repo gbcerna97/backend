@@ -44,6 +44,10 @@ class UserRequest extends FormRequest
                 'email' => 'required|string|email|unique:App\Models\User,email|max:255',
                 'password' => 'required|confirmed|min:8',
             ];
+        } else if(request()->routeIs('user.image')) {
+            return [
+                'image' => 'required|image|mimes:jpg,bmp,png|max:2048',
+            ];
         }
     }
 }
